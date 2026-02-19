@@ -1,0 +1,18 @@
+.sign-in-page {
+  background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+              url('https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sign-in-page .form-control::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.sign-in-page .form-control:focus {
+  background-color: transparent;
+  color: #fff;
+  box-shadow: none;
+  border-color: #0d6efd;
+}
