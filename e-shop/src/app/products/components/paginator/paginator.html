@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-center align-items-center gap-2 mt-4">
+  <button class="btn btn-outline-dark" type="button" (click)="prev()" [disabled]="page() === 1">
+    Prev
+  </button>
+
+  <span class="small text-muted">
+    Page {{ page() }} of {{ totalPages() }}
+  </span>
+
+  <button class="btn btn-outline-dark" type="button" (click)="next()" [disabled]="page() === totalPages()">
+    Next
+  </button>
+</div>

@@ -1,0 +1,32 @@
+<form [formGroup]="addProductForm" (ngSubmit)="submit()">
+
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input class="form-control bg-transparent text-white border-light"
+           formControlName="title" placeholder="e.g., Classic Tee" />
+  </div>
+
+  <div class="row g-3">
+    <div class="col-6">
+      <label class="form-label">Price</label>
+      <input class="form-control bg-transparent text-white border-light"
+             type="number" formControlName="price" placeholder="24.00" />
+    </div>
+
+    <div class="col-6">
+      <label class="form-label">Category</label>
+      <select class="form-select bg-transparent text-white border-light"
+              formControlName="category">
+        <option class="bg-dark" value="men's clothing">Men</option>
+        <option class="bg-dark" value="women's clothing">Women</option>
+        <option class="bg-dark" value="electronics">Electronics</option>
+        <option class="bg-dark" value="jewelery">Jewelry</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="modal-footer border-secondary px-0 mt-4">
+    <button type="button" class="btn btn-outline-light" (click)="onCancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary" [disabled]="addProductForm.invalid">Add</button>
+  </div>
+</form>

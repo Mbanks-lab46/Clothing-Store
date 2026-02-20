@@ -1,12 +1,11 @@
-@let products = (products$ | async);
+@let products = (viewProducts$ | async) ?? [];
 
-@if (products) {
     <div class="container py-5">
-        <div class="d-flex justify-content-between align-items-center mb-b">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-bold">All Products</h2>
-            <select class="form-select w-auto">
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
+            <select class="form-select w-auto" (change)="onSortChange($event)">
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
             </select>
         </div>
 
@@ -16,25 +15,36 @@
                     <h6 class="fw-bold mb-3">Category</h6>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"/>
-                        <label class="form-check-label">Clothing</label>
+                        <input value="men's clothing" class="form-check-input" type="checkbox" (change)="onCategoryToggle($event)"/>
+                        <label class="form-check-label">Men's Clothing</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"/>
+                        <input value="women's clothing" class="form-check-input" type="checkbox" (change)="onCategoryToggle($event)"/>
+                        <label class="form-check-label">Women's Clothing</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input value="electronics" class="form-check-input" type="checkbox" (change)="onCategoryToggle($event)"/>
                         <label class="form-check-label">Electronics</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"/>
-                        <label class="form-check-label">Jewelry</label>
+                        <input value="jewelery" class="form-check-input" type="checkbox" (change)="onCategoryToggle($event)"/>
+                        <label class="form-check-label">Jewelery</label>
                     </div>
+                </div>
+                
+                <div class="mt-3">
+                     <button class="btn btn-dark w-100" type="button" (click)="openAddModal()">+ Add Product</button>
                 </div>
             </div>
 
+            
+
             <div class="col-lg-9">
                 <div class="row g-4">
-                         @for(product of products; track product.id) {
+                         @for(product of pagedProducts; track product.id) {
                             <div class="col-6 col-md-4 col-lg-3">
                                   <div class="card border-0 shadow-sm h-100 product-card">
                                 <img [src]="product.image" class="card-img-top" alt=""/>
@@ -48,11 +58,37 @@
                             </div>
                           
                         }
-                   
                 </div>
+                <app-paginator
+                    class="mt-4"
+                    [items]="products"
+                    [pageSize]="10"
+                    (pageItems)="pagedProducts = $event"
+                />
             </div>
-
         </div>
 
+
+
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white border-0 rounded-4">
+
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title fw-bold">Add a Product</h5>
+                    <button type="button" class="btn-close btn-close-white" (click)="closeAddModal()"></button>
+                </div>
+
+                <div class="modal-body">
+                    <add-product-form
+                    (cancel)="closeAddModal()"
+                    (submitProduct)="handleProductAdded($event)">
+                    </add-product-form>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
-}
