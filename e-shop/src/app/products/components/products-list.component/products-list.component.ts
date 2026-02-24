@@ -5,6 +5,8 @@ import { ProductTypes } from '../../product-types';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { AddProductComponent } from '../add-product.component/add-product.component';
 import { Paginator } from "../paginator/paginator";
+import { AuthService } from '../../../auth/services/auth.service';
+import { Router } from '@angular/router';
 type SortMode = 'low' | 'high';
 type Category = "men's clothing" | "women's clothing" | "electronics" | "jewelery";
 declare const bootstrap: any;
@@ -31,7 +33,7 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
 
   pagedProducts: ProductTypes[] = [];
 
-  constructor(private _productsService: ProductsService) {}
+  constructor(private _productsService: ProductsService, private _authService: AuthService, private _router: Router) {}
 
   ngOnInit(): void {
     this.products$ = this._productsService.getProduct();
@@ -87,5 +89,10 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
       this.addedProductsSubject.next([add, ...this.addedProductsSubject.value]);
       this.closeAddModal();
     });
+  }
+
+  logout() {
+    this._authService.logout();
+    this._router.navigate(['/']);
   }
 }
