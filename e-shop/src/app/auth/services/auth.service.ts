@@ -9,7 +9,7 @@ import { signal, computed } from '@angular/core';
 })
 export class AuthService {
   apiUrl: string = environment.apiUrl;
-  private _accessToken = signal('');
+  private _accessToken = signal(localStorage.getItem('token') ?? '');
   isLoggedIn = computed(() => this._accessToken() !== '');
   
   constructor(private _http: HttpClient) {
@@ -20,11 +20,16 @@ export class AuthService {
     return this._http.post<{ token?: string }>(`${this.apiUrl}/auth/login`, {username, password}).pipe(
       map(res => res.token ?? ''),
       tap(
-        token => this._accessToken.set(token) 
+        token => { 
+          this._accessToken.set(token);
+          localStorage.setItem('token', token);
+        },
+        
       ));
     }
 
   logout() {
     this._accessToken.set('');
+    localStorage.removeItem('token');
   }
 }
