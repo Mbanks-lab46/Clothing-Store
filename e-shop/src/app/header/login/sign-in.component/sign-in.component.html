@@ -24,9 +24,15 @@
           />
         </div>
 
+        @if (signInForm.errors?.['invalidLogin']) {
+          <div class="text-danger mb-3">
+            Invalid Username or Password
+          </div>
+        }
+
         <div class="d-grid">
-          <button routerLink="/products" class="btn btn-primary" type="submit">
-            Sign Up
+            <button class="btn btn-primary" type="submit">
+              Sign In
             </button>
         </div>
       </form>
