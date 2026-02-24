@@ -36,7 +36,7 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
   constructor(private _productsService: ProductsService, private _authService: AuthService, private _router: Router) {}
 
   ngOnInit(): void {
-    this.products$ = this._productsService.getProduct();
+    this.products$ = this._productsService.getProducts();
 
     this.viewProducts$ = combineLatest([
       this.products$,
@@ -88,6 +88,17 @@ export class ProductsListComponent implements OnInit, AfterViewInit {
     this._productsService.addProduct(product).subscribe((add) => {
       this.addedProductsSubject.next([add, ...this.addedProductsSubject.value]);
       this.closeAddModal();
+    });
+  }
+
+  deleteItem(product: ProductTypes) {
+    this._productsService.deleteProduct(product.id).subscribe({
+      next: () => {
+        this.pagedProducts = this.pagedProducts.filter((p) => p.id !== product.id);
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
   }
 

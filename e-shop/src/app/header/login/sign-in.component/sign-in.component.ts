@@ -27,7 +27,6 @@ export class SignInComponent implements OnInit{
     this.signInForm.setErrors(null);
     const username = this.signInForm.controls['username'].value;
     const password = this.signInForm.controls['password'].value;
-    console.log(username, password);
     this._authService.login(username, password).subscribe({
        next: () => {
         this._router.navigate(['/products']);
