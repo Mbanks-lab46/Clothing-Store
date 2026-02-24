@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ProductTypes } from '../product-types';
@@ -13,7 +13,10 @@ export class ProductsService {
   constructor(private _http: HttpClient) {}
 
   getProduct(): Observable<ProductTypes[]> {
-    return this._http.get<ProductTypes[]>(`${this.apiUrl}/products`);
+    const opts = {
+      headers: new HttpHeaders({ Authorization: 'myToken'})
+    };
+    return this._http.get<ProductTypes[]>(`${this.apiUrl}/products`, opts);
   }
 
   addProduct(newProduct: Partial<ProductTypes>): Observable<ProductTypes> {
